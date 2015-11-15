@@ -1,0 +1,99 @@
+Project
+Use the Twitter API to write the basic parts of a Twitter client. See what your friends are tweeting, get trending topics, search tweets, and more!
+Goals
+	Have fun playing with data from Twitter.
+	See how easy it is to programmatically gather data from social websites that have APIs.
+	Get experience with command line option parsing and passing data to a Python script.
+	Get experience reading other people's code.
+Project setup
+Download and install the python-twitter dependencies and library
+This project has 4 dependencies: httplib2, simplejson, python-oauth2, and python-twitter.
+Install these as you typically install Python packages. For example, if you use pip, you can use the following pip command:
+pip install httplib2 simplejson oauth2 python-twitter
+Register a "Twitter application" on Twitter.com
+The python-twitter library now only supports oAuth authentication as the Twitter devs have indicated that OAuth is the only method that will be supported moving forward. So you need to register as a Twitter developer. This is fairly easy and free of cost.
+Registration Process:
+	Log in to the Twitter developer site [1] with your regular Twitter username and password.
+	Create a new Twitter application. For the fields, try these suggestions:
+	Name: My sample Twitter app
+	Description: My description
+	Website: https://openhatch.org/wiki/Twitter
+	Callback URL': (leave this blank)
+	Now you can click to Create your Twitter application. You should proceed to the app information page.
+
+(If you run into problems, take note: The website URL has to start with http or https. You don't need to specify Callback URL.)
+Now, make the Twitter application able to post to your Twitter profile. To do that:
+	Start at the app information page. (The Details tab should be selected.)
+	Switch to the Permissions tab.
+	Scroll down to Access and choose Read, and Write.
+	Click Update settings.
+
+Now, you need to permit yourself to use that app. To do that:
+	Start at the app information page. (Make sure you are on the Details tab.)
+	Switch to the Keys and Access Tokens tab.
+	At the bottom of the page, under the "Your access token" section, there is a button - "Create my access token" , click on this to generate the access_token_key and access_token_secret. Once you get the confirmation that your app's access tokens have been created, refresh the page and you'll see that all your app's credentials will be listed and are to be kept confidential.
+	Write down the below credentials Twitter just created for your application, or just keep the browser tab open:
+	API key
+	API secret
+	Access token
+	Access token secret
+Once you have the above mentioned details, you can use the skeleton code shared below.
+Download and un-archive the Twitter project skeleton code
+	https://openhatch.org/w/images/4/45/Twitter.zip
+Un-archiving will produce a Twitter folder containing 3 python files and 1 config file: twitter_api.py, twitter_functions.py, util.py, and config.py.
+Put the consumer_key, consumer_secret, access_token_key, access_token_secret in the config.py .
+Test your installation
+From a command prompt, navigate to the Twitter directory and run
+python twitter_api.py --search=python
+You should see the text from 20 tweets containing the word "Python" printed to the screen. If you don't, let a staff member know so you can debug this together.
+Project steps
+1. Read through and understand search
+1.	Run python twitter_api.py --search with various search terms, e.g.
+	python twitter_api.py --search=Python
+	python twitter_api.py --search="Red Sox"
+2.	Read through the search function in twitter_functions.py.
+3.	Trace through the logic in twitter_api.py that turns the --search command line option into a call to search.
+4.	Find GetSearch in the Python wrapper for Twitter at https://github.com/bear/python-twitter/blob/master/twitter/api.py. What other options could we have passed to GetSearch?
+Check your understanding: What does api.GetSearch return?
+2. Read through and understand trendingTopics
+1.	Run python twitter_api.py --trending-topics
+2.	Read through the trendingTopics function in twitter_functions.py.
+3.	Trace through the logic in twitter_api.py that turns the --trending-topics command line option into a call to search.
+4.	Find GetTrendsWoeid in the Python wrapper for Twitter at https://github.com/bear/python-twitter/blob/master/twitter/api.py. How many trending topics does that method return?
+Check your understanding: What are the differences between the optparse logic for --search and --trending-topics?
+Step 2 resources:
+	The optparse module for parsing command-line options: http://docs.python.org/library/optparse.html
+3. Implement userTweets
+1.	Using the search and trendingTopics functions as a reference, implement userTweets in twitter_functions.py. This function should print recent tweets by the username provided on the command line. You may find the twitter.Api() function GetUserTimeline() helpful.
+2.	We've already written some optparse logic for userTweets in twitter_api.py. Read through that logic. In what ways is it the same/different from the logic for search?
+3.	Test your function. You can do this with:
+python twitter_api.py -u <username>
+For example,
+python twitter_api.py -u bostonpython
+You should see 20 tweets by the provided username. If you have a Twitter account, try running it on yourself, tweeting something new, and running it again!
+Check your understanding: What are the two ways to pass command line arguments for userTweets?
+
+4. Implement trendingTweets
+1.	Using the search and trendingTopics functions as a reference, implement trendingTweets in twitter_functions.py. This function should print a couple of recent tweets from each of the currently trending topics.
+2.	We've already written some optparse logic for trendingTweets in twitter_api.py. Read through that logic. In what ways is it the same/different from the logic for search?
+3.	Test your function. You can do this with:
+python twitter_api.py -w
+You should see recent tweets from all of the currently trending topics. Depending on how you implemented your function, you might see a chunk of tweets from each trending topic in turn, or tweets from each topic interleaved.
+Check your understanding: What is the purpose of BOSTON_WOEID in twitter_functions.py?
+Bonus exercises
+If you have time, try out some of these extra exercises.
+1. Customize how tweets are printed by search
+The tweets printed by search could look much nicer and have more useful metadata!
+Customize how tweets are displayed. Look at the Status and User classes in https://github.com/bear/python-twitter/blob/master/twitter.py for inspiration; options include displaying:
+	the sender of the tweet
+	the URL for the tweet
+	how many followers the sender has
+	the location of the sender
+	if it was a retweet
+and more!
+2. Print trending topics by location
+Extend trendingTopics so that a Yahoo! Where On Earth ID (WOEID) can be specified on the command line and trending topics for that location will be displayed instead of using the hardcodedBOSTON_WOEID to only display results for Boston.
+You can look up WOEIDs by location at http://woeid.rosselliot.co.nz/
+Congratulations!
+You've read, modified, and added code to a software project that makes it easy to get useful information from Twitter. Keep practicing!
+
